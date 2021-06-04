@@ -9,6 +9,9 @@ app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 def home():
     return '<h1>Employee Database</h1>'
 
+@app.route('/greet/<name>')
+def greet():
+    return 'Hello %s!' % name
 
 @app.route('/get_employees')
 def get_employees():
