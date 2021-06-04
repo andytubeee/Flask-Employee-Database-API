@@ -26,6 +26,7 @@ def getMaxID(db):
     maxID = 0
     for employee in db:
         if employee["id"] > maxID:
+            # Replace with a greater id found
             maxID = employee['id']
     return maxID
 
@@ -38,20 +39,6 @@ def addEmployee(obj: dict):
         newEmployee['id'] = getMaxID(data) + 1
         data.append(newEmployee)
 
-        # Update database.json
-        with open('database.json', 'w') as db:
-            newJson = {'employees': data}
-            json.dump(newJson, db)
-    else:
-        raise TypeError("Required keys missing in obj")
-
-
-def update_addEmployee(obj: dict):
-    global data
-    newEmployee = obj
-    # The <= operator for sets tests for whether the set on the left is a subset of the set on the right.
-    if {'email', 'age', 'name', 'id'} <= newEmployee.keys():
-        data.append(newEmployee)
         # Update database.json
         with open('database.json', 'w') as db:
             newJson = {'employees': data}
@@ -77,6 +64,20 @@ def removeEmployee(id):
         newJson = {'employees': data}
         json.dump(newJson, db)
 
+# Prevent the id from being changed
+def update_addEmployee(obj: dict):
+    global data
+    newEmployee = obj
+    # The <= operator for sets tests for whether the set on the left is a subset of the set on the right.
+    if {'email', 'age', 'name', 'id'} <= newEmployee.keys():
+        data.append(newEmployee)
+        # Update database.json
+        with open('database.json', 'w') as db:
+            newJson = {'employees': data}
+            json.dump(newJson, db)
+    else:
+        raise TypeError("Required keys missing in obj")
+
 
 def updateEmployee(id, obj: dict):
     global data
@@ -99,11 +100,3 @@ def updateEmployee(id, obj: dict):
     removeEmployee(id)
     # Created a new employee obj
     update_addEmployee(updated)
-
-
-"""
-dict1{'a': 1, 'b':2}
-dict2{'b': 3}
-
-dict1.update(dict2) => {'a':1, 'b':3}
-"""

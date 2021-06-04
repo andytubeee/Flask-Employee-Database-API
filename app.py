@@ -10,8 +10,13 @@ def home():
     return '<h1>Employee Database</h1>'
 
 @app.route('/greet/<name>')
-def greet():
+def greet(name):
     return 'Hello %s!' % name
+
+@app.route('/print')
+def print_route():
+    message = request.args.get('message')
+    return message
 
 @app.route('/get_employees')
 def get_employees():
