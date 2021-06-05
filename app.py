@@ -45,12 +45,13 @@ def find_employee():
         # Bad data source is code 401
         return jsonify({'error': 'id parameter missing'}), 401
 
- pp.route('/delete_employee')
+@app.route('/delete_employee')
 def delete_employee():
-    # /   ?id=5
+    # /?id=5
     idArg = request.args.get('id')
     if idArg:
         try:
+            # Int because remember that Http queries are always in strings
             removeEmployee(int(idArg))
             return jsonify({'success': f'Employee {idArg} removed!'}), 200
         except Exception as e:
@@ -63,10 +64,13 @@ def delete_employee():
 @app.route('/add_employee')
 def add_employee():
     # /add_employee?email=myemail@gmail.com&name=Andrew%20Yang&age=16
+
+    # Take out the information from http query
     name = request.args.get('name')
     email = request.args.get('email')
     age = request.args.get('age')
 
+    # All need to exist
     if all([name, email, age]):
         newEmployee = {'name': name, 'email': email, 'age': int(age)}
         try:

@@ -58,9 +58,11 @@ def removeEmployee(id):
         if employee['id'] != id:
             newEmployees.append(employee)
 
+    # If every employee is pushed, so that nothing is removed
     if data == newEmployees:
         raise ValueError("Nothing was removed")
     else:
+        # Update data with newEmployees that id employee was removed
         data = newEmployees
 
     # Update database.json
