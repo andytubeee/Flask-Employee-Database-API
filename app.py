@@ -45,10 +45,9 @@ def find_employee():
         # Bad data source is code 401
         return jsonify({'error': 'id parameter missing'}), 401
 
-
-@app.route('/delete_employee')
+ pp.route('/delete_employee')
 def delete_employee():
-    # /delete_employee?id=5
+    # /   ?id=5
     idArg = request.args.get('id')
     if idArg:
         try:
