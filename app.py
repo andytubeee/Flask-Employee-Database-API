@@ -11,6 +11,7 @@ def home():
 
 @app.route('/greet/<name>')
 def greet(name):
+    # Not the API convention
     return 'Hello %s!' % name
 
 @app.route('/print')
