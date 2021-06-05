@@ -47,10 +47,14 @@ def addEmployee(obj: dict):
         raise TypeError("Required keys missing in obj")
 
 
+# addEmployee({'name': 'Andrew Yang', 'age': 16, 'email': 'andrew@gmail.com'})
+
+
 def removeEmployee(id):
     global data
     newEmployees = []
     for employee in data:
+        # If the current employee is not the one we want to remove, add to to
         if employee['id'] != id:
             newEmployees.append(employee)
 
@@ -63,6 +67,10 @@ def removeEmployee(id):
     with open('database.json', 'w') as db:
         newJson = {'employees': data}
         json.dump(newJson, db)
+
+
+# removeEmployee(5)
+
 
 # Prevent the id from being changed
 def update_addEmployee(obj: dict):
@@ -82,17 +90,24 @@ def update_addEmployee(obj: dict):
 def updateEmployee(id, obj: dict):
     global data
     if 'id' in obj:
+        # We don't any changes to ID
         raise ValueError('You cannot modify employee ID')
 
     updated = {}
     for employee in data:
         if employee['id'] == id:
+            # Temperarily setting the updated object to the employee match
             updated = employee
 
     if not updated:
+        # Object is empty
         raise ValueError('Employee does not exist, please use add_employee')
 
+    # This method overwrites the updated object with our obj parameter
     updated.update(obj)
+
+    # Age is an integer, if given age is str, convert it to int
+    # All HTTP query parameters are always string.
     if type(updated['age']) is str:
         updated['age'] = int(updated['age'])
 

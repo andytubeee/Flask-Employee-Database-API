@@ -15,6 +15,7 @@ def greet(name):
 
 @app.route('/print')
 def print_route():
+    # Query starts with a ?, and it's the same as Python variables
     message = request.args.get('message')
     return message
 
