@@ -9,10 +9,12 @@ app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 def home():
     return '<h1>Employee Database</h1>'
 
+
 @app.route('/greet/<name>')
 def greet(name):
     # Not the API convention
     return 'Hello %s!' % name
+
 
 @app.route('/print')
 def print_route():
@@ -20,14 +22,17 @@ def print_route():
     message = request.args.get('message')
     return message
 
+
 @app.route('/get_employees')
 def get_employees():
+    # Jsonify function always takes in a Python dictionary, and outputs a json
     return jsonify({'employees': getEmployees()})
 
 
 @app.route('/find_employee')
 def find_employee():
     # /find_employees?id=5
+
     # import Request from Flask
     idArg = request.args.get('id')
     if idArg:
@@ -43,8 +48,7 @@ def find_employee():
 
 @app.route('/delete_employee')
 def delete_employee():
-    # /find_employees?id=5
-    # import Request from Flask
+    # /delete_employee?id=5
     idArg = request.args.get('id')
     if idArg:
         try:
@@ -56,9 +60,10 @@ def delete_employee():
         # Bad data source
         return jsonify({'error': 'id parameter missing'}), 401
 
+
 @app.route('/add_employee')
 def add_employee():
-    # /add_employee?email=andy.tubeee@gmail.com&name=Andrew%20Yang&age=16
+    # /add_employee?email=myemail@gmail.com&name=Andrew%20Yang&age=16
     name = request.args.get('name')
     email = request.args.get('email')
     age = request.args.get('age')
@@ -73,10 +78,12 @@ def add_employee():
     else:
         return jsonify({'error': 'required parameters missing'}), 401
 
+
 @app.route('/update_employee')
 def update_employee():
     id = request.args.get('id')
     if id:
+        # request.args is immutabledict, meaning we can't remove the id from it, to_dict() function creates a copy
         copyArgs = request.args.to_dict()
         copyArgs.pop('id', None)
         try:
